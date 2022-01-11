@@ -1,0 +1,21 @@
+<!-- Search Entries Column -->
+{% if post_list %}
+{% for post in post_list %}
+    <!-- Post -->
+    <hr>
+    <h4>
+        <a href="{{ url('blog:post', post.pk) }}">{{ post.title }}</a>
+    </h4>
+    <p>
+        <small> by <a href="#">Cheva</a>
+            <span class="glyphicon glyphicon-time"></span> {{ post.created|date('Y-m-d H:i') }}
+        </small>
+    </p>
+    <p>{{ post.body|truncate(200)|striptags }}</p>
+{% endfor %}
+{% else %}
+    <hr>
+    <h4>
+        Oops... nothing found ☹
+    </h4>
+{% endif %}

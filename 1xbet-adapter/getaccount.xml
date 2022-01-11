@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<REQ action="getaccount" apiversion="1.1">
+    <PARTNERUID>ELK-Prod</PARTNERUID>
+    <PASSWORD>1234</PASSWORD>
+    <OPERATORID>5550010</OPERATORID>
+    <TOKEN>132654789</TOKEN>
+    <CURRENCY>EUR</CURRENCY>
+    <EXTENSION>withelable=168;platform=mobile</EXTENSION>
+</REQ>

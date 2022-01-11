@@ -1,0 +1,90 @@
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url('main:index') }}"
+               alt="Home" title="Home"><span class="glyphicon glyphicon-home"></span></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left ">
+                {% block navbar_left %}
+                    <li><a href="{{ url('blog:main') }}" alt="Blog" title="Blog"><span
+                            class="glyphicon glyphicon-list"></span> Blog</a></li>
+                    {% if user.is_staff %}
+                        <li><a href="{{ url('admin:blog_post_add') }}" alt="Add post" title="Add post"><span
+                                class="glyphicon glyphicon-th-list"></span> Add post</a></li>
+                        <li><a href="{{ url('admin:index') }}" alt="Admin" title="Admin"><span
+                                class="glyphicon glyphicon-cog"></span> Admin</a></li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"
+                           alt="Select theme" title="Select theme"><span
+                                class="glyphicon glyphicon-list-alt"></span> Theme <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="styleSwitch" title="Cerulean">Cerulean</a></li>
+                            <li><a class="styleSwitch" title="Lumen">Lumen</a></li>
+                            <li><a class="styleSwitch" title="SpaceLab">SpaceLab</a></li>
+                            <li><a class="styleSwitch" title="United">United</a></li>
+                            <li><a class="styleSwitch" title="Cyborg">Cyborg</a></li>
+                            <li><a class="styleSwitch" title="Darkly">Darkly</a></li>
+                            <li><a class="styleSwitch" title="Slate">Slate</a></li>
+                            <li><a class="styleSwitch" title="Superhero">Superhero</a></li>
+                        </ul>
+                    </li>
+                {% endblock %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right ">
+                {% block navbar_right %}
+                    {% if user.is_active %}
+                        <li><a href="{{ url('user:index') }}" alt="Cabinet" title="Cabinet">
+                            Hi, {{ user }} <span class="glyphicon glyphicon-user"></span></a></li>
+                        <li><a href="{{ url('user:logout') }}" alt="Logout" title="Logout">
+                            Logout <span class="glyphicon glyphicon-logout"></span></a></li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false"
+                               alt="Login" title="Login"><span class="caret"></span> Login <span
+                                    class="glyphicon glyphicon-user"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {% block navbar_login %}
+                                    <form class="navbar-form" role="login" method="post" action="{{ url('user:login') }}">
+                                        <li>
+                                            <input name="username" type="text" class="form-control" placeholder="username">
+                                        </li>
+                                        <li>
+                                            <input name="password" type="password" class="form-control"
+                                                   placeholder="password">
+                                        </li>
+                                        <li>
+                                            <button alt="Login" title="Login" type="submit" class="btn btn-primary"><span
+                                                    class="glyphicon glyphicon-user"> Login</span>
+                                            </button>
+                                            <a href='#' alt="Register" title="Register" type="button"
+                                               class="btn btn-info" data-toggle="modal" data-target="#modal_registration"><span
+                                                    class="glyphicon glyphicon-pencil"> Register</span>
+                                            </a>
+                                        </li>
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                    </form>
+                                {% endblock %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endblock %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>

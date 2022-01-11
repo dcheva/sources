@@ -1,0 +1,74 @@
+{% extends 'layouts/base.jinja2' %}
+{% block title %}Blog post | {{ post.title }}{% endblock %}
+{% block extrahead %}{% endblock %}
+{% block body %}
+        <!-- Blog Post Content Column -->
+        <div class="col-lg-8 main-content">
+            <!-- Blog Post -->
+            <!-- Title -->
+            <h1>{{ post.title }}</h1>
+            <!-- Author -->
+            <p class="lead">
+                by <a href="#">Cheva</a>
+                <small><span class="glyphicon glyphicon-time"></span>
+					{{ post.created|date('Y-m-d H:i') }}
+					{% for tag in post.tags.all() %}
+					<a href="{{ url('blog:tag', tag.alias) }}">#{{ tag.title }}</a>
+					{% endfor %}
+				</small>
+            </p>
+            <!-- Preview Image -->
+            {% if post.image %}
+            <hr />
+			<a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">
+			<img class="img-responsive" src="/{{ post.image.url }}" alt="{{ post.title }}">
+			</a>
+			{% endif %}
+			<hr />
+            <!-- /Preview Image -->
+            <!-- Post Content -->
+            <p>{{ post.body|safe }}</p>
+            <hr />
+            <!-- Blog Comments -->
+            <!-- Comments Form -->
+            <div class="well">
+                <h4>Leave a Comment:</h4>
+                <form role="form" action="{{ url('blog:comment', post.pk) }}" method="POST">
+                    <div class="form-group">
+                        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                        <table style="width:100%">
+                            {# @todo redefine as_table() with bootstrap form-control styles #}
+                            {{ form.as_table() }}
+                        </table>
+                    </div>
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+			<!-- /Comments Form -->
+            <!-- Posted Comments -->
+            {% for comment in comment_list %}
+                <!-- Comment -->
+                <hr />
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="#">{{ comment.author }}</a>
+                            <small>
+                                <span class="glyphicon glyphicon-time"></span> {{ comment.created|date('Y-m-d H:i') }}
+                            </small>
+                        </h4>
+                        {{ comment.body|linebreaks }}
+                    </div>
+                </div>
+				<!-- /.Comment -->
+            {% endfor %}
+			<!-- /.Posted Comments -->
+		</div>
+		<!-- /.Blog Post Content Column -->
+        {% include 'layouts/sidebar.jinja2' %}
+{% endblock %}

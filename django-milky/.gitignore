@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+.idea
+/*.cproject
+/*.project
+/*.pydevproject
+/static/
+/nbproject/private/

@@ -1,0 +1,14 @@
+<!-- Pager -->
+<ul class="pager">
+    {% if pg.has_previous()>0 %}
+        <li class="previous">
+            <a href="{{ url('blog:page', pg.previous_page_number()) }}">&larr; Newer</a>
+        </li>
+    {% endif %}
+    <li>Page {{ pg.number }} of {{ pg.paginator.num_pages }}.</li>
+    {% if pg.has_next()>0 %}
+        <li class="next">
+            <a href="{{ url('blog:page', pg.next_page_number()) }}">Older &rarr;</a>
+        </li>
+    {% endif %}
+</ul>

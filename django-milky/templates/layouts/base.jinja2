@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="{% block author %}Dmitry Cheva{% endblock %}">
+    <title>{% block title %}Main{% endblock %}</title>
+    {% block extrahead %}{% endblock %}
+    <!-- Bootstrap theme CSS -->
+    <link id="styleSheet" href="{% if local_vars['style_sheet'] %}{{ local_vars['style_sheet'] }}
+    {% else %}{{ static('bootstrap/css/darkly.min.css') }}{% endif %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ static('css/main.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ static('images/favicon.png') }}"/>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        var staticCss = "{{ static('bootstrap/css/') }}";
+        var csrf = "{{ csrf_token }}";
+        var showRegistrationForm = false;
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+<!-- FB app SDK -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=565472013561660&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- /FB app SDK -->
+{% include 'layouts/navigation.jinja2' %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <!-- Notifications block -->
+        {% if messages %}
+            <div class="modal fade" id="modal_message" tabindex="-1" role="message" aria-hidden="true" style="z-index:1050">
+                <div class="modal-dialog">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <br/><br/>
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
+                            <!--button type="button" class="close" data-dismiss="alert">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            </button-->
+                            {{ message|safe }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endif %}
+        <!-- /Notifications block -->
+        {% block body %}{% endblock %}
+    </div>
+    <!-- /.row -->
+    <!-- Footer -->
+    <hr>
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                2014..2015 ツ <a target="_blank" href="http://linkedin.com/in/cheusov">cheva</a>
+                (◕‿◕) <a target="_blank" href="http://djangoproject.com">Django</a><br />
+                <a href="https://code.google.com/p/milky-web/" target="_blank">project @ Google Code</a><br />
+                <div class="g-plusone" data-annotation="inline" data-width="400" data-href="https://code.google.com/p/milky-web/"></div><br />
+				<div class="fb-follow" data-href="https://www.facebook.com/milkyweb" data-width="400" data-colorscheme="light" data-layout="standard" data-show-faces="true"></div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </footer>
+    {% if user.is_active %}
+    {% else %}
+        <!-- Registration Modal window -->
+        <div class="modal fade" id="modal_registration" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                {% include 'user/register_form.jinja2' %}
+            </div>
+        </div>
+    {% endif %}
+    <!-- jQuery -->
+    <script src="{{ static('jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ static('bootstrap/js/bootstrap.min.js') }}"></script>
+    <!-- Custom JS -->
+    <script src="{{ static('js/main.js') }}"></script>
+    <script>
+        if (showRegistrationForm) {
+            $('#modal_registration').modal()
+        }
+        {% if messages %}$('#modal_message').modal();{% endif %}
+    </script>
+</div>
+<!-- /.container -->
+</body>
+</html>

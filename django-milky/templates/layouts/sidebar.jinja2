@@ -1,0 +1,51 @@
+<!-- Blog Sidebar Widgets Column -->
+<div class="col-md-4">
+    <!-- Blog Search Well -->
+    <div class="well">
+        <div class="input-group">
+            <input type="text" class="form-control" id="blog-search-text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+        </div>
+        <!-- /.input-group -->
+    </div>
+    <!-- /Blog Search Well -->
+    <!-- Blog Categories Well -->
+    <div class="well">
+        <h4>Categories (tags)</h4>
+        <div class="row">
+			{% for cat in local_vars['cat_list'] %}
+            <div class="col-xs-6">
+			<a href="{{ url('blog:tag', cat.alias) }}">{{ cat.title }}</a>
+			</div>
+			{% endfor %}
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /Blog Categories Well -->
+    <!-- Side Widget Well -->
+    <div class="well">
+        <h4>Latest comments</h4>
+        <div class="row">
+			{% for com in local_vars['com_list'] %}
+            <div class="col-xs-12">
+			<a href="{{ url('blog:post', com.post.pk) }}">
+			<span class="glyphicon glyphicon-chevron-right"></span></a>
+			{{ com.body|truncate(100)|striptags }}
+			<br />
+			<small>
+			by <a href="#">Cheva</a>
+				<span class="glyphicon glyphicon-time"></span> {{ com.created|date('Y-m-d H:i') }}
+			<br />
+			on <a href="{{ url('blog:post', com.post.pk) }}">{{ com.post.title }}</a> 
+			</small><br /><br />
+			</div>
+			{% endfor %}
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /Side Widget Well -->
+</div>

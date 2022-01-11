@@ -1,0 +1,59 @@
+{% extends 'layouts/base.jinja2' %}
+{% block title %}Milky Way game project home{% endblock %}
+{% block body %}
+    <div class="col-md-8 main-content">
+        <!-- Main Content Column -->
+        {% for post in post_list %}
+            {% if post.main==1 %}
+                <div class="col-lg-12 mainpage">
+                    <h1 class="page-header">
+                        Milky Way game
+                        <small>project home</small>
+                    </h1>
+                    <!-- Post 1 -->
+                    {% if post.image %}
+                        <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">
+                            <img class="img-responsive" src="/{{ post.image.url }}" alt="{{ post.title }}">
+                        </a>
+                    {% endif %}
+                    <h2>
+                        <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">{{ post.title }}</a>
+                    </h2>
+                    <p>{{ post.body|truncate(1000)|striptags }}
+                        <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </p>
+                <div style="clear:both;height: 20px;"></div>
+                    <!-- /.Post 1 -->
+                </div>
+            {% else %}
+                {% if loop.index is divisibleby(2) %}
+                <div style="clear:both"></div>
+                {% endif %}
+                <div class="col-md-6 {% if loop.index is divisibleby(2) %}no-pad-left{% else %}no-pad{% endif %}">
+                <div class="well">
+                    <!-- Post 2+ -->
+                    {% if post.image %}
+                        <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">
+                            <img class="img-responsive" src="/{{ post.image.url }}" alt="{{ post.title }}">
+                        </a>
+                    {% endif %}
+                    <h3>
+                        <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">{{ post.title }}</a>
+                    </h3>
+                    <p>{{ post.body|truncate(500)|striptags }}
+                        <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">
+                            <span class="glyphicon glyphicon-chevron-right">
+                            </span>
+                        </a>
+                    </p>
+                    <!-- /.Post 2+ -->
+                </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <!-- /.Main Content Column -->
+    </div>
+    {% include 'layouts/sidebar.jinja2' %}
+{% endblock %}

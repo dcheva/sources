@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+
+            <div id="right">
+                <p>
+                    <a href="/new">Start new</a>
+                </p>
+                <p>
+                    Steps: <span class="steps">{{ puzzle.steps }}</span>
+                </p>
+            </div>
+
+            <div id="welcome">
+                <h1><span>Welcome to 15 puzzle</span></h1>
+                <span id="name">{{ puzzle.name }} #{{ puzzle.id }}</span>
+                <br>
+                <span id="message">To solve the puzzle, the numbers must be rearranged into order.</span>
+
+            </div>
+
+            <div id="play-{{ puzzle.id }}" class="play">
+                {% for row in state %}
+                    {% set i = loop.index0 %}
+                    <div class="row" id="{{ i }}">
+                        {% for col in row %}
+                            {% set j = loop.index0 %}
+                            <div class="col" id="{{ j }}">
+                                {{ col }}
+                            </div>
+                        {% endfor %}
+                        <br>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="won">
+                <img src="{{ asset('images/won.jpg') }}" id="iwon">
+                <p>
+                    Congratulations! You won in <span class="steps"></span> steps.
+                </p>
+                <p>
+                    <a href="/new">Start new game</a>
+                </p>
+            </div>
+
+            <script>
+                var freeRow = {{ free[0] }};
+                var freeCol = {{ free[1] }};
+            </script>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/my.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ asset('js/my.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layouts/base.jinja2' %}
+{% block title %}Blog list{% endblock %}
+{% block extrahead %}{% endblock %}
+{% block body %}
+    <!-- Blog Entries Column -->
+    <div class="col-md-8 main-content" xmlns="http://www.w3.org/1999/html">
+        <h1 class="page-header">
+            Blog
+			{% if tag_alias %}
+            <small>posts with tag</small>
+			{% for tag in tag_list %}
+			#{{ tag.title }}
+			{% endfor %}
+			{% else %}
+            <small>newest posts</small>
+			{% endif %}
+        </h1>
+        {% for post in post_list %}
+            <!-- Post -->
+            {% if post.image %}
+                <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">
+                    <img class="img-responsive" src="/{{ post.image.url }}" alt="{{ post.title }}">
+                </a>
+            {% endif %}
+            <h2>
+                <a href="{{ url('blog:post', post.pk) }}" title="{{ post.title }}">{{ post.title }}</a>
+            </h2>
+            <p class="lead">
+                by <a href="#">Cheva</a>
+                <small>
+                    <span class="glyphicon glyphicon-time"></span> {{ post.created|date('Y-m-d H:i') }}		
+					{% for tag in post.tags.all() %}
+					<a href="{{ url('blog:tag', tag.alias) }}">#{{ tag.title }}</a>
+					{% endfor %}
+				</small>
+            </p>
+            <p>{{ post.body|truncate(1000)|striptags }}
+                <a href="{{ url('blog:post', post.pk) }}">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </p>
+            <a class="btn btn-primary" href="{{ url('blog:post', post.pk) }}">Comments ({{ post.comments.count() }})
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+            <hr>
+            <!-- /.Post -->
+        {% endfor %}
+        {% set pg = post_list %}{% include "layouts/pager.jinja2" %}
+    </div>
+    <!-- /.Blog Entries Column -->
+    {% include 'layouts//sidebar.jinja2' %}
+{% endblock %}
